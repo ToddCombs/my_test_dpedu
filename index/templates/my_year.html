@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- 这两个标签只是写法不同，但本质上全部指向命名为myyear的url地址信息。浏览器访问地址2020.html -->
+<div><a href="/2020.html">2020 a new baby</a></div>
+<!-- { %url 'myyear' 2020 % }这是django的模板语法-->
+<div><a href="{%  url 'my_year' 2020 %}">2020 a new baby!!!</a></div>
+</body>
+</html>

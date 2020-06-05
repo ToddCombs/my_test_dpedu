@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django2.0试做</title>
+</head>
+<body>
+    Helloooooooooooooooooooooooo world!!
+    <!--表单相关内容：主要有4个组成：提交地址，请求方式，元素控件，提交按钮-->
+
+<form action="" method="post">
+     <!--用户提交的表单数据由哪个URL接收和处理，由action属性决定，若action为空则提交数据由当前URL接收处理，
+     否则会跳转至action指向的地址。
+     method属性决定请求方式GET，POST-->
+    First name:<br>
+    <label>
+        <input type="text" name="firstname" value="Todd">
+        <!--元素控件是提供用户输入数据的，由<input>实现，其中type属性用来设置输入框类型，常用的有文本框，下拉框，复选框等-->
+    </label>
+    <br>
+    Last name:<br>
+    <label>
+        <input type="text" name="lastname" value="Combs">
+    </label>
+    <br><br>
+    <input type="submit" value="提交">
+    <!--提交按钮也是由input实现的，但按钮有特殊性，因此不归属于元素控件-->
+</form>
+<ul id="cate_box" class="lf">
+    {% for type in type_list %}
+    <li>
+        <h3><a href="#">{{ type.type }}</a></h3>
+        <p>
+            {% for name in name_list %}
+                {% if name.type == type.type %}
+                    <span>{{ name.name }}</span>
+                {% endif %}
+            {% endfor %}
+        </p>
+    </li>
+    {% endfor %}
+</ul>
+</body>
+</html>

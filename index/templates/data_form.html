@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>静态title</title>
+</head>
+<body>
+    {% if product.errors %}
+        <p>
+            数据出错啦，错误信息：{{ product.errors }}.
+        </p>
+    {% else %}
+        <form action="" method="post">
+            {% csrf_token %}
+                <table>
+                    <!--将表单生成HTML的标签as_table-->
+                    <!--将表单生成HTML的ul标签的as_ul-->
+                    <!--将表单生成HTML的p标签的as_p-->
+                    <!--生成单个HTML元素控件的product.type-->
+                    <!--获取表单字段的参数label属性值的product.type.label-->
+                    {{ product.as_table }}
+                </table>
+                <input type="submit" value="提交">
+        </form>
+    {% endif %}
+</body>
+</html>
