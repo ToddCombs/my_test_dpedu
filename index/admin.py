@@ -31,12 +31,44 @@ class ProductAdmin(admin.ModelAdmin):
             self.readonly_fields = []
         return self.readonly_fields
 
+    # 重写当前用户名的访问权限，判断当前用户身份，超级用户则返回Product全部数据，否则只返回前5条
     def get_queryset(self, request):
         qs = super(ProductAdmin, self).get_queryset(request)
         if request.user.is_superuser:
             return qs
         else:
             return qs.filter(id_lt=6)
+
+    # 重写新增产品的下拉菜单，实现下拉框数据的过滤，admin用户新增产品下拉菜单显示全部选项，root用户显示部分
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'type':
+            if not request.user.is_superuser:
+                kwargs["queryset"] = Type.objects.filter(id__lt=4)
+        return super(admin.ModelAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
+    # 重写新增或修改数据点击保存按钮触发的功能，该功能主要对输入的数据进行入库和更新处理
+    def save_model(self, request, obj, form, change):
+        if change:
+            # 获取当前用户名
+            user = request.user
+            # 使用模型获取数据，pk代表具有主键属性的字段
+            name = self.model.objects.get(pk=obj.pk).name
+            # 使用表单获取数据
+            weight = form.cleaned_datap['weight']
+            # 写入日志
+            f =open('C://MyDjango_log.txt', 'a')
+            f.write('产品：'+str(name)+', 被用户：'+str(user)+'修改'+'\r\n')
+            f.close()
+        else:
+            pass
+        # 使用super克自定义save_model既保留父类已有的功能又添加自定义功能
+        # 先判断change是否为True，如是，则说明当前操作为数据修改，反之为新增数据。
+        super(ProductAdmin, self).save_model(request, obj, form, change)
+
+    # 删除数据所执行的函数
+    def delete_model(self, request, obj):
+        pass
+        super(ProductAdmin, self).delete_model(request, obj)
 
 
 # @admin.register(Type)
