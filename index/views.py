@@ -35,6 +35,7 @@ def index(request):
     name_list = Product.objects.values('name','type')
     # 查询所得的数据以字典形式写入变量context种，变量context是render()函数的参数，作用是将变量传递给HTML模板。
     title = '首页'
+    username = request.user.username
     # context = {'title':'首页', 'type_list':type_list, 'name_list':name_list}
     # 当HTML模板接到变量type_list和name_list后，模板引擎解析模板语法并生成HTML文件
     # 小提示：变量context是以字典形式传递给HTML模板的，开发过程中如果传递变量果多使用context时就显得非常冗余，不利于维护更新
